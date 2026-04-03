@@ -214,7 +214,15 @@ echo 'starfall-academy-2187' > .vault-pass
 chmod 600 .vault-pass
 ```
 
-This file is **gitignored** — it never enters version control. The `ansible.cfg` already references it via `vault_password_file = .vault-pass`.
+This file is **gitignored** — it never enters version control.
+
+Now enable vault integration in `ansible.cfg`. Open `workspace/ansible.cfg` and uncomment the vault line:
+
+```ini
+vault_password_file = .vault-pass
+```
+
+This tells Ansible to automatically use `.vault-pass` for decrypting vault files.
 
 ### Step 3.2 — Create the Vault File
 
