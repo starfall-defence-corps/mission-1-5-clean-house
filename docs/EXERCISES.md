@@ -18,6 +18,14 @@ Complete each phase in sequence. Run `make test` after each phase.
 make setup
 ```
 
+Then activate the Python environment:
+
+```bash
+source venv/bin/activate
+```
+
+Your terminal prompt will show `(venv)` when active. You need to do this once per terminal session.
+
 ---
 
 ## PHASE 1: Intelligence Gathering
