@@ -78,7 +78,7 @@ ansible-vault view vault.yml
 
 **The vault password file:**
 
-`ansible.cfg` has `vault_password_file = .vault-pass`. Create this file with your vault password:
+`ansible.cfg` has a commented-out `vault_password_file = .vault-pass` line. Create the password file first, then uncomment the line:
 
 ```bash
 echo 'your-password-here' > .vault-pass
