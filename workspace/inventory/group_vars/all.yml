@@ -1,0 +1,6 @@
+---
+# Shared variables for all fleet nodes.
+# These should reference vault-encrypted values where appropriate.
+#
+# You will create a vault.yml file to store sensitive values.
+# Reference them here or in the role's defaults/vars.

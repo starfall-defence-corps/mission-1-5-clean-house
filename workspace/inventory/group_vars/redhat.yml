@@ -1,0 +1,3 @@
+---
+# Red Hat/Rocky Linux-specific variables.
+# Define OS-specific service names and packages here.

@@ -1,0 +1,62 @@
+FROM rockylinux:9
+
+ENV container=docker
+
+# Install systemd + SSH + Ansible prerequisites
+RUN dnf -y install \
+    systemd \
+    openssh-server \
+    python3 \
+    python3-libselinux \
+    sudo \
+    iproute \
+    procps-ng \
+    firewalld \
+    && dnf clean all
+
+# Mask unnecessary systemd units that cause issues in containers
+RUN systemctl mask \
+    dev-hugepages.mount \
+    sys-fs-fuse-connections.mount \
+    systemd-udev-trigger.service \
+    systemd-udevd.service \
+    systemd-update-utmp.service \
+    systemd-logind.service \
+    getty@.service \
+    getty.target
+
+# Enable SSH and firewall via systemd
+RUN systemctl enable sshd
+RUN systemctl enable firewalld
+
+# Generate SSH host keys
+RUN ssh-keygen -A
+
+# SSH misconfigurations
+RUN mkdir -p /run/sshd \
+    && sed -i 's/#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config \
+    && sed -i 's/#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
+# Colonel Hardcoded-Password's evidence
+RUN mkdir -p /opt && printf 'fleet_db_user: admin\nfleet_db_pass: V01dborn_Hunter_2187\nfleet_api_key: sk-sdc-1a2b3c4d5e6f7g8h9i0j\n' > /opt/fleet-db-creds.txt \
+    && chmod 644 /opt/fleet-db-creds.txt
+
+# Create cadet user for SSH access
+RUN useradd -m -s /bin/bash cadet \
+    && echo 'cadet:academy' | chpasswd \
+    && echo 'cadet ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/cadet \
+    && chmod 0440 /etc/sudoers.d/cadet
+
+# Set up SSH key auth for cadet
+RUN mkdir -p /home/cadet/.ssh \
+    && chmod 700 /home/cadet/.ssh \
+    && chown cadet:cadet /home/cadet/.ssh
+
+RUN echo 'root:starfall' | chpasswd
+
+EXPOSE 22
+
+STOPSIGNAL SIGRTMIN+3
+
+CMD ["/sbin/init"]

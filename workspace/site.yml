@@ -1,0 +1,25 @@
+---
+# =============================================================
+# OPERATION: CLEAN HOUSE
+# =============================================================
+#
+# Colonel Hardcoded-Password's reign ends here. Everything
+# you've built in Missions 1.2–1.4 gets restructured into
+# a proper role. Secrets go in the Vault. Everything through
+# change authorisation.
+#
+# This is your site playbook — it calls the role you create.
+#
+# TODO: Create the fleet_hardening role:
+#   cd workspace
+#   ansible-galaxy init roles/fleet_hardening
+#
+# TODO: Uncomment the play below once your role exists:
+
+# - name: Clean House — Fleet Hardening Role
+#   hosts: all
+#   become: true
+#   vars_files:
+#     - vault.yml
+#   roles:
+#     - fleet_hardening
