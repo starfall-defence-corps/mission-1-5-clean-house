@@ -2,6 +2,8 @@
 
 > 🧭 [← 1.4 Many Ships](https://github.com/starfall-defence-corps/mission-1-4-many-ships) · **You are here: 1.5 Clean House** · [Gateway Simulation →](https://github.com/starfall-defence-corps/gateway-simulation) · [🏠 Academy Hub](https://github.com/starfall-defence-corps/sdc-academy)
 
+> ☁️ **No Docker on your machine?** Create your own copy first (Use this template), then on **your** repo: **Code → Codespaces → Create codespace** — everything is preinstalled. First boot takes ~5 min (one-time); after that it starts fast.
+
 ## Mission 1.5: Clean House
 
 > *"Colonel Hardcoded-Password embedded database credentials in three public repos. Plaintext. In the commit history. This ends now."*
