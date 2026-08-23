@@ -1,6 +1,6 @@
 # Mission 1.5: Clean House — Progress Tracker
 
-**Rank**: Ensign Candidate
+**Rank**: Sub-Lieutenant
 **Mission Progress**: 5 of 5 toward Ensign
 
 ---

@@ -1,6 +1,6 @@
 # Mission 1.5: Clean House — Hints & Troubleshooting Guide
 
-**Rank**: Ensign Candidate (Minimal Scaffolding)
+**Rank**: Sub-Lieutenant (Minimal Scaffolding)
 
 You are close to Ensign. Fewer hints. More judgement calls.
 
