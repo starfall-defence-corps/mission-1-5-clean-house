@@ -8,7 +8,7 @@
 ## Phase 1: Intelligence Gathering
 
 - [ ] Fleet nodes are online (`make setup` succeeded)
-- [ ] Found Colonel Hardcoded-Password's plaintext credentials at `/opt/fleet-db-creds.txt`
+- [ ] Found Warlord Hardcoded-Password's plaintext credentials at `/opt/fleet-db-creds.txt`
 - [ ] Understand Ansible role directory structure
 - [ ] Understand the difference between `defaults/` and `vars/`
 

@@ -53,7 +53,7 @@ Restructure your hardening work from Missions 1.2–1.4 into a proper Ansible ro
 
 ### 3a. Commander's Intent
 
-Loose playbooks are prototypes. Roles are production-ready SOPs. The fleet depends on hardening that is repeatable, auditable, and secure. Colonel Hardcoded-Password proved what happens when secrets are treated casually. This mission closes that gap.
+Loose playbooks are prototypes. Roles are production-ready SOPs. The fleet depends on hardening that is repeatable, auditable, and secure. Warlord Hardcoded-Password proved what happens when secrets are treated casually. This mission closes that gap.
 
 ### 3b. Concept of Operations
 
@@ -99,7 +99,7 @@ Same mixed-OS fleet as Mission 1.4.
 
 ## 5. COMMAND AND SIGNAL
 
-**Commander's Final Order**: Colonel Hardcoded-Password's legacy ends with this mission. Every secret encrypted. Every playbook structured as a reusable role. Every change through proper authorisation. When you complete this mission, you will have earned every skill needed for the Gateway Simulation. Clean house. Leave nothing for the Voidborn.
+**Commander's Final Order**: Warlord Hardcoded-Password's legacy ends with this mission. Every secret encrypted. Every playbook structured as a reusable role. Every change through proper authorisation. When you complete this mission, you will have earned every skill needed for the Gateway Simulation. Clean house. Leave nothing for the Voidborn.
 
 Proceed to **EXERCISES.md** for phase-by-phase operational instructions.
 
