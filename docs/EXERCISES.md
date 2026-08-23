@@ -30,7 +30,7 @@ Your terminal prompt will show `(venv)` when active. You need to do this once pe
 
 ## PHASE 1: Intelligence Gathering
 
-> Find Colonel Hardcoded-Password's evidence. Understand what an Ansible role looks like. Plan your role structure.
+> Find Warlord Hardcoded-Password's evidence. Understand what an Ansible role looks like. Plan your role structure.
 
 ### Step 1.1 — Find the Colonel's Secrets
 
@@ -203,7 +203,7 @@ cd workspace
 
 ## PHASE 3: Crypto Cell (Vault)
 
-> Encrypt sensitive values. Colonel Hardcoded-Password's reign ends here.
+> Encrypt sensitive values. Warlord Hardcoded-Password's reign ends here.
 
 ### Step 3.1 — Create a Vault Password File
 
@@ -332,7 +332,7 @@ make test
 
 ## MISSION COMPLETE — DEBRIEF CHECKLIST
 
-- [ ] Found Colonel Hardcoded-Password's plaintext credentials
+- [ ] Found Warlord Hardcoded-Password's plaintext credentials
 - [ ] Created `fleet_hardening` role with `ansible-galaxy init`
 - [ ] Populated role: tasks, handlers, templates, defaults, meta
 - [ ] Created and encrypted `vault.yml`

@@ -37,7 +37,7 @@ if [ $EXIT_CODE -eq 0 ]; then
     echo -e "  ARIA: All objectives verified."
     echo -e "  Mission 1.5 status: COMPLETE"
     echo -e ""
-    echo -e "  Cadet, Colonel Hardcoded-Password has been"
+    echo -e "  Cadet, Warlord Hardcoded-Password has been"
     echo -e "  defeated. Secrets are vaulted. Roles are clean."
     echo -e "  You are ready for the Gateway Simulation."
     echo -e "  The Starfall Defence Corps salutes your work."
