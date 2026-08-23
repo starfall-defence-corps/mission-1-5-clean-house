@@ -8,7 +8,7 @@ DOCUMENT: EXERCISES — Phase-by-Phase Operational Instructions
 
 Complete each phase in sequence. Run `make test` after each phase.
 
-**Scaffolding**: Minimal. You are approaching Ensign rank. The inventory and `ansible.cfg` are provided. The role and vault are yours to create.
+**Scaffolding**: Minimal. You are approaching Sub-Lieutenant rank. The inventory and `ansible.cfg` are provided. The role and vault are yours to create.
 
 ---
 

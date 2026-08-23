@@ -2,7 +2,7 @@
 
 **Rank**: Sub-Lieutenant (Minimal Scaffolding)
 
-You are close to Ensign. Fewer hints. More judgement calls.
+You are close to Sub-Lieutenant. Fewer hints. More judgement calls.
 
 ---
 
