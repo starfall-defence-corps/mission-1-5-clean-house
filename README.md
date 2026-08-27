@@ -1,6 +1,6 @@
 # Starfall Defence Corps Academy
 
-> 🧭 [← 1.4 Many Ships](https://github.com/starfall-defence-corps/mission-1-4-many-ships) · **You are here: 1.5 Clean House** · [Gateway Simulation →](https://github.com/starfall-defence-corps/gateway-simulation) · [🏠 Academy Hub](https://github.com/starfall-defence-corps/sdc-academy)
+> 🧭 [← 1.4 Many Ships](https://github.com/starfall-defence-corps/mission-1-4-many-ships) · **You are here: 1.5 Clean House** · [1.6 Inventory from Nothing →](https://github.com/starfall-defence-corps/mission-1-6-inventory-from-nothing) · [🏠 Academy Hub](https://github.com/starfall-defence-corps/sdc-academy)
 
 > ☁️ **No Docker on your machine?** Create your own copy first (Use this template), then on **your** repo: **Code → Codespaces → Create codespace** — everything is preinstalled. First boot takes ~5 min (one-time); after that it starts fast.
 
@@ -10,7 +10,7 @@
 
 You are a cadet at the Starfall Defence Corps Academy. Everything you've built in Missions 1.2–1.4 — SSH hardening, service cleanup, multi-OS support — exists as loose playbooks. Warlord Hardcoded-Password has proven what happens when secrets aren't managed properly. Your mission: restructure everything into a proper Ansible role, encrypt secrets with Vault, and follow Git workflow discipline.
 
-This is the final mission before the Gateway Simulation.
+One mission remains before the Gateway Simulation: 1.6 Inventory from Nothing.
 
 ## Prerequisites
 
