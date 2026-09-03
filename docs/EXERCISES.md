@@ -330,6 +330,18 @@ make test
 
 ---
 
+## SUBMIT
+
+From the project root:
+
+```bash
+make submit
+```
+
+This branches, commits, pushes, and opens your review pull request in one command. If you added an `ANTHROPIC_API_KEY` secret (see README), ARIA posts a review on the PR.
+
+---
+
 ## MISSION COMPLETE — DEBRIEF CHECKLIST
 
 - [ ] Found Warlord Hardcoded-Password's plaintext credentials

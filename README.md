@@ -30,17 +30,20 @@ One mission remains before the Gateway Simulation: 1.6 Inventory from Nothing.
 git clone https://github.com/YOUR-USERNAME/mission-1-5-clean-house.git
 cd mission-1-5-clean-house
 
-# 2. Start the fleet
+# 2. Check your machine is mission-ready
+make doctor
+
+# 3. Start the fleet
 make setup
 
-# 3. Activate the virtual environment
+# 4. Activate the virtual environment
 source venv/bin/activate
 ```
 
-4. **Read your orders**: [Mission Briefing](docs/BRIEFING.md)
-5. **Complete the exercises**: [Exercises](docs/EXERCISES.md)
-6. **Stuck?** [Hints & Troubleshooting](docs/HINTS.md)
-7. **Track progress**: [Checklist](CHECKLIST.md)
+5. **Read your orders**: [Mission Briefing](docs/BRIEFING.md)
+6. **Complete the exercises**: [Exercises](docs/EXERCISES.md)
+7. **Stuck?** [Hints & Troubleshooting](docs/HINTS.md)
+8. **Track progress**: [Checklist](CHECKLIST.md)
 
 ## Lab Architecture
 
@@ -74,14 +77,18 @@ source venv/bin/activate
 
 ```
 make help       Show available commands
+make doctor     Check your machine is mission-ready (Docker, ports, tools)
 make setup      Start the fleet (2 Ubuntu + 1 Rocky Linux)
 make test       Ask ARIA to verify your work
+make submit     Submit your work for ARIA review (branch, commit, push, PR)
 make reset      Destroy and rebuild all fleet nodes
 make destroy    Tear down everything (containers, keys, venv)
 make ssh-web    SSH into sdc-web (Ubuntu)
 make ssh-db     SSH into sdc-db (Rocky Linux)
 make ssh-comms  SSH into sdc-comms (Ubuntu)
 ```
+
+> **Note:** `make submit` uses the [GitHub CLI](https://cli.github.com/) — install `gh` and run `gh auth login` once before your first submission.
 
 ## Mission Files
 
