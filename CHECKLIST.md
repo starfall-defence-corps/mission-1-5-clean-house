@@ -1,7 +1,7 @@
 # Mission 1.5: Clean House — Progress Tracker
 
 **Rank**: Sub-Lieutenant
-**Mission Progress**: 5 of 5 toward Sub-Lieutenant
+**Mission Progress**: 5 of 6 toward Sub-Lieutenant
 
 ---
 
@@ -53,4 +53,4 @@
 ## Verification
 
 - [ ] `make test` — all ARIA checks pass
-- [ ] Ready for Gateway Simulation
+- [ ] Ready for Mission 1.6 (Inventory from Nothing)

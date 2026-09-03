@@ -354,7 +354,7 @@ make test
 - [ ] Why plaintext secrets in repos are dangerous
 - [ ] Consolidating loose playbooks into reusable roles
 
-**You are now ready for the Gateway Simulation.**
+**You are now ready for Mission 1.6: Inventory from Nothing.**
 
 ---
 
