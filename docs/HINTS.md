@@ -266,7 +266,7 @@ Subsystem sftp /usr/libexec/openssh/sftp-server
 **roles/fleet_hardening/templates/fleet_db_creds.j2:**
 ```jinja2
 # ROTATED FLEET DATABASE CREDENTIAL — vault-sourced, root-only (0600).
-# Supersedes the Colonel's world-readable plaintext leak.
+# Supersedes the Warlord's world-readable plaintext leak.
 db_username: admin
 db_password: {{ vault_db_password }}
 ```

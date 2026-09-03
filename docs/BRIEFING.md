@@ -13,9 +13,9 @@ AUTHORITY: SDC Cyber Command, 2187
 
 ### 1a. Enemy Forces
 
-Voidborn operative **COLONEL HARDCODED-PASSWORD** has embedded database credentials in three fleet systems. Plaintext. On the filesystem. The Colonel's philosophy: "If it works, why encrypt it?" Because the Voidborn read files too, Colonel.
+Voidborn operative **WARLORD HARDCODED-PASSWORD** has embedded database credentials in three fleet systems. Plaintext. On the filesystem. The Warlord's philosophy: "If it works, why encrypt it?" Because the Voidborn read files too, Warlord.
 
-Evidence of the Colonel's work is present on every fleet node at `/opt/fleet-db-creds.txt`. Examine it. Then ensure nothing like it ever happens again.
+Evidence of the Warlord's work is present on every fleet node at `/opt/fleet-db-creds.txt`. Examine it. Then ensure nothing like it ever happens again.
 
 ### 1b. Friendly Forces
 
@@ -45,7 +45,7 @@ But this work exists as loose playbooks. No structure. No reusability. No secret
 
 Restructure your hardening work from Missions 1.2–1.4 into a proper Ansible role. Store all sensitive values in Ansible Vault. Follow Git workflow discipline.
 
-**End state**: A `fleet_hardening` role that hardens SSH, deploys templates, and manages the firewall on both OS families. The Colonel's leaked database password — rotated by Cyber Command — lives encrypted in the Vault and is redeployed to `/opt/fleet-db-creds.txt` at `0600`, remediating the world-readable plaintext leak. No plaintext secrets anywhere in the workspace.
+**End state**: A `fleet_hardening` role that hardens SSH, deploys templates, and manages the firewall on both OS families. The Warlord's leaked database password — rotated by Cyber Command — lives encrypted in the Vault and is redeployed to `/opt/fleet-db-creds.txt` at `0600`, remediating the world-readable plaintext leak. No plaintext secrets anywhere in the workspace.
 
 ---
 
@@ -61,7 +61,7 @@ Four sequential phases.
 
 | Phase | Task | Objective |
 |-------|------|-----------|
-| 1 | Intelligence Gathering | Find the Colonel's secrets, understand role structure |
+| 1 | Intelligence Gathering | Find the Warlord's secrets, understand role structure |
 | 2 | Build the Role | Create `fleet_hardening` role, move tasks and templates |
 | 3 | Crypto Cell (Vault) | Encrypt sensitive values, reference from role |
 | 4 | Deploy & Verify | Run `site.yml`, confirm idempotency |

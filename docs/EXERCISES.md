@@ -32,7 +32,7 @@ Your terminal prompt will show `(venv)` when active. You need to do this once pe
 
 > Find Warlord Hardcoded-Password's evidence. Understand what an Ansible role looks like. Plan your role structure.
 
-### Step 1.1 — Find the Colonel's Secrets
+### Step 1.1 — Find the Warlord's Secrets
 
 ```bash
 cd workspace
@@ -229,7 +229,7 @@ This tells Ansible to automatically use `.vault-pass` for decrypting vault files
 
 ### Step 3.2 — Create the Vault File
 
-The Colonel's leaked database password (`V01dborn_Hunter_2187`) is burned. Cyber
+The Warlord's leaked database password (`V01dborn_Hunter_2187`) is burned. Cyber
 Command has **rotated** it. The replacement credential is CLASSIFIED and must never
 touch the filesystem in plaintext — its only home is the Vault.
 
@@ -272,13 +272,13 @@ Add a **credentials template** to the role —
 
 ```jinja2
 # ROTATED FLEET DATABASE CREDENTIAL — vault-sourced, root-only (0600).
-# Supersedes the Colonel's world-readable plaintext leak.
+# Supersedes the Warlord's world-readable plaintext leak.
 db_username: admin
 db_password: {{ vault_db_password }}
 ```
 
 Then add a task to `roles/fleet_hardening/tasks/main.yml` that deploys it over the
-Colonel's leak at `/opt/fleet-db-creds.txt`, locked down to `0600` (root-only):
+Warlord's leak at `/opt/fleet-db-creds.txt`, locked down to `0600` (root-only):
 
 ```yaml
 - name: Deploy rotated database credential (root-only)
@@ -308,7 +308,7 @@ ansible-vault encrypt vault.yml
 
 ### Step 3.5 — Verify No Plaintext Secrets
 
-ARIA scans your entire workspace for known sensitive values — the Colonel's leaked
+ARIA scans your entire workspace for known sensitive values — the Warlord's leaked
 credentials **and** the rotated `vault_db_password`. Neither may appear in any file
 except the encrypted `vault.yml` (excluded from the scan by its `$ANSIBLE_VAULT`
 header). If you ever paste the rotated password into a plaintext file, ARIA catches
