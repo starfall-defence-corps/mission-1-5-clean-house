@@ -39,7 +39,7 @@ if [ $EXIT_CODE -eq 0 ]; then
     echo -e ""
     echo -e "  Cadet, Warlord Hardcoded-Password has been"
     echo -e "  defeated. Secrets are vaulted. Roles are clean."
-    echo -e "  You are ready for the Gateway Simulation."
+    echo -e "  One trial remains: Mission 1.6 — Inventory from Nothing."
     echo -e "  The Starfall Defence Corps salutes your work."
     echo -e "  ==============================================${RESET}"
 else

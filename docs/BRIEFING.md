@@ -99,7 +99,7 @@ Same mixed-OS fleet as Mission 1.4.
 
 ## 5. COMMAND AND SIGNAL
 
-**Commander's Final Order**: Warlord Hardcoded-Password's legacy ends with this mission. Every secret encrypted. Every playbook structured as a reusable role. Every change through proper authorisation. When you complete this mission, you will have earned every skill needed for the Gateway Simulation. Clean house. Leave nothing for the Voidborn.
+**Commander's Final Order**: Warlord Hardcoded-Password's legacy ends with this mission. Every secret encrypted. Every playbook structured as a reusable role. Every change through proper authorisation. When you complete this mission, you will be ready for Mission 1.6: Inventory from Nothing — the final step before the Gateway Simulation. Clean house. Leave nothing for the Voidborn.
 
 Proceed to **EXERCISES.md** for phase-by-phase operational instructions.
 
