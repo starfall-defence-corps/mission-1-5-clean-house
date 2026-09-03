@@ -282,6 +282,7 @@ class TestRoleApplied:
                 "test \"$(stat -c '%a' /opt/fleet-db-creds.txt)\" = 600"
                 " && grep -q 'SDC-DBROT-7f3a91c2e5b8' /opt/fleet-db-creds.txt"
                 " && ! grep -q 'V01dborn_Hunter_2187' /opt/fleet-db-creds.txt"
+                " && ! grep -q 'sk-sdc-1a2b3c4d5e6f7g8h9i0j' /opt/fleet-db-creds.txt"
             ),
         )
         assert result.returncode == 0, (
