@@ -45,7 +45,7 @@ But this work exists as loose playbooks. No structure. No reusability. No secret
 
 Restructure your hardening work from Missions 1.2–1.4 into a proper Ansible role. Store all sensitive values in Ansible Vault. Follow Git workflow discipline.
 
-**End state**: A `fleet_hardening` role that hardens SSH, deploys templates, and manages the firewall on both OS families. Sensitive values encrypted in Vault. No plaintext secrets anywhere in the workspace.
+**End state**: A `fleet_hardening` role that hardens SSH, deploys templates, and manages the firewall on both OS families. The Colonel's leaked database password — rotated by Cyber Command — lives encrypted in the Vault and is redeployed to `/opt/fleet-db-creds.txt` at `0600`, remediating the world-readable plaintext leak. No plaintext secrets anywhere in the workspace.
 
 ---
 
