@@ -278,12 +278,18 @@ class TestRoleApplied:
         """
         result = _run_ansible(
             "ansible", "all", "-m", "shell",
-            "-a", "test \"$(stat -c '%a' /opt/fleet-db-creds.txt)\" = 600",
+            "-a", (
+                "test \"$(stat -c '%a' /opt/fleet-db-creds.txt)\" = 600"
+                " && grep -q 'SDC-DBROT-7f3a91c2e5b8' /opt/fleet-db-creds.txt"
+                " && ! grep -q 'V01dborn_Hunter_2187' /opt/fleet-db-creds.txt"
+            ),
         )
         assert result.returncode == 0, (
-            "ARIA: /opt/fleet-db-creds.txt is not locked down to 0600 on all "
-            "nodes. Deploy the rotated credential from the Vault with mode "
-            "'0600' to remediate the Colonel's world-readable plaintext leak."
+            "ARIA: /opt/fleet-db-creds.txt is not remediated on all nodes. "
+            "The file must be mode '0600' AND contain the rotated credential "
+            "from the Vault (not the Colonel's burned password). Locking down "
+            "the old leaked file is not enough — deploy the rotated "
+            "credential template."
         )
 
 
