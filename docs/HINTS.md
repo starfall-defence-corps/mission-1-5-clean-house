@@ -99,11 +99,16 @@ In `site.yml`:
     - fleet_hardening
 ```
 
-The vault variables are now available to the role. You can reference them in `defaults/main.yml`:
+The vault variable `vault_db_password` is now available to the role. Consume it in the
+credentials template the role deploys — never in a plaintext file:
 
-```yaml
-banner_message: "{{ vault_banner_message }}"
+```jinja2
+# roles/fleet_hardening/templates/fleet_db_creds.j2
+db_password: {{ vault_db_password }}
 ```
+
+Public config (banner text, grace time) is *not* secret — keep it in
+`defaults/main.yml` in the clear. Only the database password goes in the Vault.
 
 ---
 
@@ -139,12 +144,16 @@ Ensure `vault.yml` is in the `workspace/` directory (same level as `site.yml`).
 ---
 ssh_permit_root_login: "no"
 ssh_password_authentication: "no"
-ssh_login_grace_time: "{{ vault_ssh_login_grace_time | default(30) }}"
+ssh_login_grace_time: 30
 ssh_max_auth_tries: 3
 ssh_service_name: ssh
-banner_message: "{{ vault_banner_message | default('STARFALL DEFENCE CORPS') }}"
+banner_message: "STARFALL DEFENCE CORPS — AUTHORISED PERSONNEL ONLY"
 firewall_pkg: ufw
 ```
+
+These are all public configuration — no vault indirection needed. The one real
+secret, `vault_db_password`, comes from `vault.yml` (loaded via `site.yml`'s
+`vars_files`) and is consumed by the credentials task below.
 
 **roles/fleet_hardening/tasks/main.yml:**
 ```yaml
@@ -205,6 +214,14 @@ firewall_pkg: ufw
     state: started
     enabled: true
   when: ansible_os_family == "RedHat"
+
+- name: Deploy rotated database credential (root-only)
+  ansible.builtin.template:
+    src: fleet_db_creds.j2
+    dest: /opt/fleet-db-creds.txt
+    owner: root
+    group: root
+    mode: '0600'
 ```
 
 **roles/fleet_hardening/handlers/main.yml:**
@@ -246,6 +263,14 @@ Subsystem sftp /usr/libexec/openssh/sftp-server
 ===============================================
 ```
 
+**roles/fleet_hardening/templates/fleet_db_creds.j2:**
+```jinja2
+# ROTATED FLEET DATABASE CREDENTIAL — vault-sourced, root-only (0600).
+# Supersedes the Colonel's world-readable plaintext leak.
+db_username: admin
+db_password: {{ vault_db_password }}
+```
+
 **workspace/site.yml:**
 ```yaml
 ---
@@ -260,8 +285,7 @@ Subsystem sftp /usr/libexec/openssh/sftp-server
 
 **workspace/vault.yml** (before encryption):
 ```yaml
-vault_ssh_login_grace_time: 30
-vault_banner_message: "STARFALL DEFENCE CORPS — AUTHORISED PERSONNEL ONLY"
+vault_db_password: "SDC-DBROT-7f3a91c2e5b8"
 ```
 
 ---

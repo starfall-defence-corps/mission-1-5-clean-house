@@ -165,6 +165,10 @@ class TestVault:
             "sk-sdc-1a2b3c4d5e6f7g8h9i0j",
             "fleet_db_pass",
             "fleet_api_key",
+            # The rotated database credential — belongs ONLY in the encrypted
+            # vault.yml (skipped below). If it appears in any plaintext file,
+            # the cadet has leaked it exactly the way the Colonel did.
+            "SDC-DBROT-7f3a91c2e5b8",
         ]
         violations = []
         for root, dirs, files in os.walk(_workspace_dir()):
@@ -263,6 +267,30 @@ class TestRoleApplied:
         assert result.returncode == 0 and "STARFALL" in result.stdout, (
             "ARIA: Login banner not deployed. Ensure the role "
             "deploys a MOTD template."
+        )
+
+    def test_db_credential_secured(self):
+        """Rotated DB credential must be deployed root-only (0600) on all nodes.
+
+        The Colonel left /opt/fleet-db-creds.txt world-readable (0644) in
+        plaintext. The role must overwrite it with a vault-sourced credential
+        locked down to 0600 — remediating the leak.
+        """
+        result = _run_ansible(
+            "ansible", "all", "-m", "shell",
+            "-a", (
+                "test \"$(stat -c '%a' /opt/fleet-db-creds.txt)\" = 600"
+                " && grep -q 'SDC-DBROT-7f3a91c2e5b8' /opt/fleet-db-creds.txt"
+                " && ! grep -q 'V01dborn_Hunter_2187' /opt/fleet-db-creds.txt"
+                " && ! grep -q 'sk-sdc-1a2b3c4d5e6f7g8h9i0j' /opt/fleet-db-creds.txt"
+            ),
+        )
+        assert result.returncode == 0, (
+            "ARIA: /opt/fleet-db-creds.txt is not remediated on all nodes. "
+            "The file must be mode '0600' AND contain the rotated credential "
+            "from the Vault (not the Colonel's burned password). Locking down "
+            "the old leaked file is not enough — deploy the rotated "
+            "credential template."
         )
 
 

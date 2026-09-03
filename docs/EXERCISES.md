@@ -146,6 +146,9 @@ This is where your hardening tasks go. Consolidate from Missions 1.2–1.4:
 
 Each task uses variables from `defaults/` or `group_vars/` — no hardcoded values.
 
+(A sixth task — deploying the rotated database credential from the Vault — comes in
+Phase 3, once the Crypto Cell is set up.)
+
 ### Step 2.6 — Write handlers/main.yml
 
 Move your SSH restart handler here:
@@ -226,15 +229,18 @@ This tells Ansible to automatically use `.vault-pass` for decrypting vault files
 
 ### Step 3.2 — Create the Vault File
 
+The Colonel's leaked database password (`V01dborn_Hunter_2187`) is burned. Cyber
+Command has **rotated** it. The replacement credential is CLASSIFIED and must never
+touch the filesystem in plaintext — its only home is the Vault.
+
 ```bash
 ansible-vault create vault.yml
 ```
 
-This opens an editor. Add your sensitive values:
+This opens an editor. Store the rotated credential:
 
 ```yaml
-vault_ssh_login_grace_time: 30
-vault_banner_message: "STARFALL DEFENCE CORPS — AUTHORISED PERSONNEL ONLY"
+vault_db_password: "SDC-DBROT-7f3a91c2e5b8"
 ```
 
 Save and close. The file is now encrypted.
@@ -244,24 +250,49 @@ Save and close. The file is now encrypted.
 ```bash
 # Create the file first:
 cat > vault.yml << 'EOF'
-vault_ssh_login_grace_time: 30
-vault_banner_message: "STARFALL DEFENCE CORPS — AUTHORISED PERSONNEL ONLY"
+vault_db_password: "SDC-DBROT-7f3a91c2e5b8"
 EOF
 
 # Then encrypt it:
 ansible-vault encrypt vault.yml
 ```
 
-### Step 3.3 — Reference Vault Variables
+> **Only secrets belong in the Vault.** Public configuration — the SSH login grace
+> time, the login banner text — stays in `defaults/main.yml` in the clear. There is
+> nothing to hide about a banner everyone sees at login. The database password is a
+> different animal: a real secret, and the whole reason the Crypto Cell exists.
 
-In your role's `defaults/main.yml`, you can reference vault variables:
+### Step 3.3 — Consume the Secret: Remediate the Leak
 
-```yaml
-ssh_login_grace_time: "{{ vault_ssh_login_grace_time }}"
-banner_message: "{{ vault_banner_message }}"
+`site.yml` already loads the vault via `vars_files: vault.yml`, so
+`vault_db_password` is available to the role. Now put it to work.
+
+Add a **credentials template** to the role —
+`roles/fleet_hardening/templates/fleet_db_creds.j2`:
+
+```jinja2
+# ROTATED FLEET DATABASE CREDENTIAL — vault-sourced, root-only (0600).
+# Supersedes the Colonel's world-readable plaintext leak.
+db_username: admin
+db_password: {{ vault_db_password }}
 ```
 
-Or reference them directly in `site.yml`'s `vars_files`, which makes them available to the role.
+Then add a task to `roles/fleet_hardening/tasks/main.yml` that deploys it over the
+Colonel's leak at `/opt/fleet-db-creds.txt`, locked down to `0600` (root-only):
+
+```yaml
+- name: Deploy rotated database credential (root-only)
+  ansible.builtin.template:
+    src: fleet_db_creds.j2
+    dest: /opt/fleet-db-creds.txt
+    owner: root
+    group: root
+    mode: '0600'
+```
+
+This is the heart of the mission: the plaintext, world-readable (`0644`) leak is
+overwritten by a vault-sourced credential that only root can read. The secret lives
+encrypted at rest in `vault.yml` and is decrypted only at deploy time.
 
 ### Step 3.4 — Verify Vault is Encrypted
 
@@ -277,7 +308,12 @@ ansible-vault encrypt vault.yml
 
 ### Step 3.5 — Verify No Plaintext Secrets
 
-ARIA will scan your entire workspace for known sensitive values. Ensure the Colonel's credentials don't appear in any file (the vault file is excluded from this scan since it's encrypted).
+ARIA scans your entire workspace for known sensitive values — the Colonel's leaked
+credentials **and** the rotated `vault_db_password`. Neither may appear in any file
+except the encrypted `vault.yml` (excluded from the scan by its `$ANSIBLE_VAULT`
+header). If you ever paste the rotated password into a plaintext file, ARIA catches
+it. Note the credentials template stores `{{ vault_db_password }}` — the variable,
+never the literal value — so the secret stays out of the workspace.
 
 ### Step 3.6 — Run ARIA
 
@@ -347,10 +383,11 @@ This branches, commits, pushes, and opens your review pull request in one comman
 - [ ] Found Warlord Hardcoded-Password's plaintext credentials
 - [ ] Created `fleet_hardening` role with `ansible-galaxy init`
 - [ ] Populated role: tasks, handlers, templates, defaults, meta
-- [ ] Created and encrypted `vault.yml`
+- [ ] Stored the rotated DB password in an encrypted `vault.yml`
 - [ ] Created `.vault-pass` file (gitignored)
 - [ ] No plaintext secrets in workspace
 - [ ] `site.yml` calls the role with `vars_files: vault.yml`
+- [ ] Deployed the rotated credential to `/opt/fleet-db-creds.txt` at `0600` (leak remediated)
 - [ ] Role works on both Ubuntu and Rocky Linux
 - [ ] Second run is idempotent
 - [ ] `make test` — all ARIA checks pass
@@ -363,6 +400,8 @@ This branches, commits, pushes, and opens your review pull request in one comman
 - [ ] Ansible Vault — the Crypto Cell
 - [ ] `ansible-vault create/encrypt/decrypt/edit`
 - [ ] Vault password files and `ansible.cfg` integration
+- [ ] What belongs in the Vault (secrets) vs `defaults/` (public config)
+- [ ] Rotating a leaked credential and redeploying it root-only (`0600`)
 - [ ] Why plaintext secrets in repos are dangerous
 - [ ] Consolidating loose playbooks into reusable roles
 

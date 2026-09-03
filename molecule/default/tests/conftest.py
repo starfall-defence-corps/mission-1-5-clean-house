@@ -32,6 +32,7 @@ FRIENDLY = {
     "test_site_yml_references_role":     "site.yml references fleet_hardening role",
     "test_ssh_hardened_all_nodes":        "SSH hardened on all nodes",
     "test_motd_deployed":                "Login banner deployed",
+    "test_db_credential_secured":        "Rotated DB credential deployed root-only (0600)",
     "test_playbook_is_idempotent":       "Role is idempotent (changed=0)",
 }
 
