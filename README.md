@@ -88,6 +88,8 @@ make ssh-db     SSH into sdc-db (Rocky Linux)
 make ssh-comms  SSH into sdc-comms (Ubuntu)
 ```
 
+> **Note:** `make submit` uses the [GitHub CLI](https://cli.github.com/) — install `gh` and run `gh auth login` once before your first submission.
+
 ## Mission Files
 
 | File | Purpose |
