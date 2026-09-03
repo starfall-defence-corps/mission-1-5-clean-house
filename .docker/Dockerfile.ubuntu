@@ -36,7 +36,7 @@ RUN mkdir -p /run/sshd \
     && sed -i 's/#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config \
     && sed -i 's/#PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 
-# === COLONEL HARDCODED-PASSWORD'S HANDIWORK ===
+# === WARLORD HARDCODED-PASSWORD'S HANDIWORK ===
 # Plaintext credentials left on the filesystem. Shameful.
 RUN mkdir -p /opt && echo 'fleet_db_user: admin\nfleet_db_pass: V01dborn_Hunter_2187\nfleet_api_key: sk-sdc-1a2b3c4d5e6f7g8h9i0j' > /opt/fleet-db-creds.txt \
     && chmod 644 /opt/fleet-db-creds.txt

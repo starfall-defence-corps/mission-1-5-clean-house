@@ -68,7 +68,7 @@ source venv/bin/activate
 |  | sdc-web    | | sdc-db      | | sdc-comms  |  |
 |  | :2221      | | :2222       | | :2223      |  |
 |  | Ubuntu22.04| | Rocky Lin 9 | | Ubuntu22.04|  |
-|  | Colonel's plaintext creds on each node    |  |
+|  | Warlord's plaintext creds on each node    |  |
 |  +------------+ +-------------+ +------------+  |
 +--------------------------------------------------+
 ```

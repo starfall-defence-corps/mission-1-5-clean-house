@@ -46,7 +46,7 @@
 - [ ] SSH hardened on Ubuntu and Rocky Linux
 - [ ] MOTD deployed with host-specific content
 - [ ] Firewall active on both OS families
-- [ ] Rotated credential deployed to `/opt/fleet-db-creds.txt` at `0600` (Colonel's leak remediated)
+- [ ] Rotated credential deployed to `/opt/fleet-db-creds.txt` at `0600` (Warlord's leak remediated)
 - [ ] Second run is idempotent — `changed=0` on all hosts
 - [ ] `make test` — all ARIA checks pass
 
