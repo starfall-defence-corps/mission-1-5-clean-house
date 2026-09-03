@@ -153,7 +153,7 @@ class TestVault:
         with open(path) as f:
             first_line = f.readline().strip()
         assert first_line.startswith("$ANSIBLE_VAULT;"), (
-            "ARIA: vault.yml is NOT encrypted. Colonel Hardcoded-Password "
+            "ARIA: vault.yml is NOT encrypted. Warlord Hardcoded-Password "
             "would approve of your plaintext secrets. Encrypt it with: "
             "ansible-vault encrypt vault.yml"
         )
@@ -167,7 +167,7 @@ class TestVault:
             "fleet_api_key",
             # The rotated database credential — belongs ONLY in the encrypted
             # vault.yml (skipped below). If it appears in any plaintext file,
-            # the cadet has leaked it exactly the way the Colonel did.
+            # the cadet has leaked it exactly the way the Warlord did.
             "SDC-DBROT-7f3a91c2e5b8",
         ]
         violations = []
@@ -191,7 +191,7 @@ class TestVault:
                         rel = os.path.relpath(fpath, _workspace_dir())
                         violations.append(f"{rel} contains '{pattern}'")
         assert not violations, (
-            f"ARIA: Plaintext secrets detected! Colonel Hardcoded-Password "
+            f"ARIA: Plaintext secrets detected! Warlord Hardcoded-Password "
             f"lives on in your files:\n"
             + "\n".join(f"  - {v}" for v in violations)
             + "\nEncrypt sensitive values in vault.yml."
@@ -272,7 +272,7 @@ class TestRoleApplied:
     def test_db_credential_secured(self):
         """Rotated DB credential must be deployed root-only (0600) on all nodes.
 
-        The Colonel left /opt/fleet-db-creds.txt world-readable (0644) in
+        The Warlord left /opt/fleet-db-creds.txt world-readable (0644) in
         plaintext. The role must overwrite it with a vault-sourced credential
         locked down to 0600 — remediating the leak.
         """
@@ -288,7 +288,7 @@ class TestRoleApplied:
         assert result.returncode == 0, (
             "ARIA: /opt/fleet-db-creds.txt is not remediated on all nodes. "
             "The file must be mode '0600' AND contain the rotated credential "
-            "from the Vault (not the Colonel's burned password). Locking down "
+            "from the Vault (not the Warlord's burned password). Locking down "
             "the old leaked file is not enough — deploy the rotated "
             "credential template."
         )
