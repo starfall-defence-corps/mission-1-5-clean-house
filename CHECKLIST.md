@@ -30,9 +30,10 @@
 ## Phase 3: Crypto Cell (Vault)
 
 - [ ] Created `.vault-pass` with vault password
-- [ ] Created `vault.yml` with sensitive values
+- [ ] Stored the rotated DB password (`vault_db_password`) in `vault.yml`
 - [ ] Encrypted `vault.yml` with `ansible-vault encrypt`
 - [ ] Verified: `cat vault.yml` shows `$ANSIBLE_VAULT;` header
+- [ ] Added the credentials template + deploy task that consumes `vault_db_password`
 - [ ] No plaintext secrets anywhere in workspace
 - [ ] `site.yml` includes `vars_files: vault.yml`
 
@@ -45,6 +46,7 @@
 - [ ] SSH hardened on Ubuntu and Rocky Linux
 - [ ] MOTD deployed with host-specific content
 - [ ] Firewall active on both OS families
+- [ ] Rotated credential deployed to `/opt/fleet-db-creds.txt` at `0600` (Colonel's leak remediated)
 - [ ] Second run is idempotent — `changed=0` on all hosts
 - [ ] `make test` — all ARIA checks pass
 
