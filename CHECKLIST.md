@@ -1,6 +1,6 @@
 # Mission 1.5: Clean House — Progress Tracker
 
-**Rank**: Sub-Lieutenant
+**Rank**: Midshipman
 **Mission Progress**: 5 of 6 toward Sub-Lieutenant
 
 ---
