@@ -6,7 +6,7 @@
 
 ## Mission 1.5: Clean House
 
-> *"Warlord Hardcoded-Password embedded database credentials in three public repos. Plaintext. In the commit history. This ends now."*
+> *"Warlord Hardcoded-Password left the fleet database credentials sitting on disk. Plaintext. World-readable. `/opt/fleet-db-creds.txt`. This ends now."*
 
 You are a cadet at the Starfall Defence Corps Academy. Everything you've built in Missions 1.2–1.4 — SSH hardening, service cleanup, multi-OS support — exists as loose playbooks. Warlord Hardcoded-Password has proven what happens when secrets aren't managed properly. Your mission: restructure everything into a proper Ansible role, encrypt secrets with Vault, and follow Git workflow discipline.
 
