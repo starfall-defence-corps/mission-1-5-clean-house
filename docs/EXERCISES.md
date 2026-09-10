@@ -405,7 +405,7 @@ This branches, commits, pushes, and opens your review pull request in one comman
 - [ ] Why plaintext secrets in repos are dangerous
 - [ ] Consolidating loose playbooks into reusable roles
 
-**You are now ready for Mission 1.6: Inventory from Nothing.**
+**You are now ready for [Mission 1.6: Inventory from Nothing](https://github.com/starfall-defence-corps/mission-1-6-inventory-from-nothing).**
 
 ---
 

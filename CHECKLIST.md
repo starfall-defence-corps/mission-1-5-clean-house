@@ -55,4 +55,6 @@
 ## Verification
 
 - [ ] `make test` — all ARIA checks pass
-- [ ] Ready for Mission 1.6 (Inventory from Nothing)
+- [ ] Ready for [Mission 1.6 (Inventory from Nothing)](https://github.com/starfall-defence-corps/mission-1-6-inventory-from-nothing)
+
+**Next stop**: [Mission 1.6 — Inventory from Nothing](https://github.com/starfall-defence-corps/mission-1-6-inventory-from-nothing)
