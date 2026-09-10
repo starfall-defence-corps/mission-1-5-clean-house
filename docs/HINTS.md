@@ -2,7 +2,7 @@
 
 > 📚 Deeper reference: [FM-1 — Ansible Module Reference](https://github.com/starfall-defence-corps/sdc-academy/blob/main/field-manuals/FM-1-ansible-reference.md)
 
-**Rank**: Sub-Lieutenant (Minimal Scaffolding)
+**Rank**: Midshipman (Minimal Scaffolding)
 
 You are close to Sub-Lieutenant. Fewer hints. More judgement calls.
 
