@@ -8,6 +8,8 @@ DOCUMENT: EXERCISES — Phase-by-Phase Operational Instructions
 
 Complete each phase in sequence. Run `make test` after each phase.
 
+**One directory for everything**: run every command in this mission — `ansible ...` and `make ...` — from the **project root** (the folder with the `Makefile`). An `ansible.cfg` lives both there and in `workspace/`, so Ansible works from either; the steps below assume the project root throughout.
+
 **Scaffolding**: Minimal. You are approaching Sub-Lieutenant rank. The inventory and `ansible.cfg` are provided. The role and vault are yours to create.
 
 ---
@@ -35,7 +37,6 @@ Your terminal prompt will show `(venv)` when active. You need to do this once pe
 ### Step 1.1 — Find the Warlord's Secrets
 
 ```bash
-cd workspace
 ansible all -m shell -a "cat /opt/fleet-db-creds.txt"
 ```
 
@@ -66,9 +67,7 @@ For this mission, put SSH settings and banner text in `defaults/main.yml` (so th
 ### Step 1.3 — Run ARIA
 
 ```bash
-cd ..
 make test
-cd workspace
 ```
 
 ---
@@ -80,18 +79,18 @@ cd workspace
 ### Step 2.1 — Create the Role
 
 ```bash
-ansible-galaxy init roles/fleet_hardening
+ansible-galaxy init workspace/roles/fleet_hardening
 ```
 
 This creates the full directory structure. Examine what was generated:
 
 ```bash
-ls roles/fleet_hardening/
+ls workspace/roles/fleet_hardening/
 ```
 
 ### Step 2.2 — Populate defaults/main.yml
 
-Edit `roles/fleet_hardening/defaults/main.yml` with your SSH variables:
+Edit `workspace/roles/fleet_hardening/defaults/main.yml` with your SSH variables:
 
 ```yaml
 ---
@@ -109,14 +108,14 @@ These are defaults — they can be overridden by `group_vars/` or the vault.
 
 Since the SSH service name and firewall differ by OS, ensure your group_vars override the defaults:
 
-**inventory/group_vars/debian.yml:**
+**workspace/inventory/group_vars/debian.yml:**
 ```yaml
 ---
 ssh_service_name: ssh
 firewall_pkg: ufw
 ```
 
-**inventory/group_vars/redhat.yml:**
+**workspace/inventory/group_vars/redhat.yml:**
 ```yaml
 ---
 ssh_service_name: sshd
@@ -128,8 +127,8 @@ firewall_pkg: firewalld
 Copy your Jinja2 templates from Mission 1.4 into the role:
 
 ```
-roles/fleet_hardening/templates/sshd_config.j2
-roles/fleet_hardening/templates/motd.j2
+workspace/roles/fleet_hardening/templates/sshd_config.j2
+workspace/roles/fleet_hardening/templates/motd.j2
 ```
 
 Create these templates following the same patterns from Mission 1.4. The templates use `{{ variable_name }}` to insert values.
@@ -197,9 +196,7 @@ Edit `workspace/site.yml` — uncomment the play that calls the role:
 ### Step 2.9 — Run ARIA
 
 ```bash
-cd ..
 make test
-cd workspace
 ```
 
 ---
@@ -213,19 +210,19 @@ cd workspace
 The vault password file allows Ansible to decrypt vault files automatically. Create it:
 
 ```bash
-echo 'starfall-academy-2187' > .vault-pass
-chmod 600 .vault-pass
+echo 'starfall-academy-2187' > workspace/.vault-pass
+chmod 600 workspace/.vault-pass
 ```
 
 This file is **gitignored** — it never enters version control.
 
-Now enable vault integration in `ansible.cfg`. Open `workspace/ansible.cfg` and uncomment the vault line:
+Now enable vault integration in `ansible.cfg`. Open `ansible.cfg` (in the project root) and uncomment the vault line:
 
 ```ini
-vault_password_file = .vault-pass
+vault_password_file = workspace/.vault-pass
 ```
 
-This tells Ansible to automatically use `.vault-pass` for decrypting vault files.
+This tells Ansible to automatically use `workspace/.vault-pass` for decrypting vault files.
 
 ### Step 3.2 — Create the Vault File
 
@@ -234,7 +231,7 @@ Command has **rotated** it. The replacement credential is CLASSIFIED and must ne
 touch the filesystem in plaintext — its only home is the Vault.
 
 ```bash
-ansible-vault create vault.yml
+ansible-vault create workspace/vault.yml
 ```
 
 This opens an editor. Store the rotated credential:
@@ -249,12 +246,12 @@ Save and close. The file is now encrypted.
 
 ```bash
 # Create the file first:
-cat > vault.yml << 'EOF'
+cat > workspace/vault.yml << 'EOF'
 vault_db_password: "SDC-DBROT-7f3a91c2e5b8"
 EOF
 
 # Then encrypt it:
-ansible-vault encrypt vault.yml
+ansible-vault encrypt workspace/vault.yml
 ```
 
 > **Only secrets belong in the Vault.** Public configuration — the SSH login grace
@@ -264,11 +261,11 @@ ansible-vault encrypt vault.yml
 
 ### Step 3.3 — Consume the Secret: Remediate the Leak
 
-`site.yml` already loads the vault via `vars_files: vault.yml`, so
+`workspace/site.yml` already loads the vault via `vars_files: vault.yml`, so
 `vault_db_password` is available to the role. Now put it to work.
 
 Add a **credentials template** to the role —
-`roles/fleet_hardening/templates/fleet_db_creds.j2`:
+`workspace/roles/fleet_hardening/templates/fleet_db_creds.j2`:
 
 ```jinja2
 # ROTATED FLEET DATABASE CREDENTIAL — vault-sourced, root-only (0600).
@@ -277,7 +274,7 @@ db_username: admin
 db_password: {{ vault_db_password }}
 ```
 
-Then add a task to `roles/fleet_hardening/tasks/main.yml` that deploys it over the
+Then add a task to `workspace/roles/fleet_hardening/tasks/main.yml` that deploys it over the
 Warlord's leak at `/opt/fleet-db-creds.txt`, locked down to `0600` (root-only):
 
 ```yaml
@@ -297,13 +294,13 @@ encrypted at rest in `vault.yml` and is decrypted only at deploy time.
 ### Step 3.4 — Verify Vault is Encrypted
 
 ```bash
-cat vault.yml
+cat workspace/vault.yml
 ```
 
 You should see `$ANSIBLE_VAULT;1.1;AES256` followed by encrypted data. If you see plaintext, encrypt it:
 
 ```bash
-ansible-vault encrypt vault.yml
+ansible-vault encrypt workspace/vault.yml
 ```
 
 ### Step 3.5 — Verify No Plaintext Secrets
@@ -318,9 +315,7 @@ never the literal value — so the secret stays out of the workspace.
 ### Step 3.6 — Run ARIA
 
 ```bash
-cd ..
 make test
-cd workspace
 ```
 
 ---
@@ -330,13 +325,13 @@ cd workspace
 ### Step 4.1 — Dry Run
 
 ```bash
-ansible-playbook site.yml --check --diff
+ansible-playbook workspace/site.yml --check --diff
 ```
 
 ### Step 4.2 — Execute
 
 ```bash
-ansible-playbook site.yml
+ansible-playbook workspace/site.yml
 ```
 
 ### Step 4.3 — Verify
@@ -352,7 +347,7 @@ ansible all -m shell -a "cat /etc/motd"
 ### Step 4.4 — Idempotency
 
 ```bash
-ansible-playbook site.yml
+ansible-playbook workspace/site.yml
 ```
 
 `changed=0` on all hosts.
@@ -360,7 +355,6 @@ ansible-playbook site.yml
 ### Step 4.5 — Final ARIA Verification
 
 ```bash
-cd ..
 make test
 ```
 
