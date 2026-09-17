@@ -216,13 +216,21 @@ chmod 600 workspace/.vault-pass
 
 This file is **gitignored** — it never enters version control.
 
-Now enable vault integration in `ansible.cfg`. Open `ansible.cfg` (in the project root) and uncomment the vault line:
+Now enable vault integration in **both** `ansible.cfg` files (each copy is read from its own directory):
+
+- Root `ansible.cfg` — uncomment:
 
 ```ini
 vault_password_file = workspace/.vault-pass
 ```
 
-This tells Ansible to automatically use `workspace/.vault-pass` for decrypting vault files.
+- `workspace/ansible.cfg` — uncomment:
+
+```ini
+vault_password_file = .vault-pass
+```
+
+The root copy covers the commands you run from the project root; the workspace copy is the one ARIA's `make test` reads (it runs Ansible from `workspace/`). With both enabled, vault files decrypt automatically everywhere.
 
 ### Step 3.2 — Create the Vault File
 
