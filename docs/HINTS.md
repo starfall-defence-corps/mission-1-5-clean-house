@@ -10,7 +10,7 @@ You are close to Sub-Lieutenant. Fewer hints. More judgement calls.
 
 ## Role Structure
 
-**After `ansible-galaxy init roles/fleet_hardening`, you get:**
+**After `ansible-galaxy init workspace/roles/fleet_hardening`, you get:**
 
 ```
 roles/fleet_hardening/
@@ -42,7 +42,7 @@ Edit the files you need. Leave the rest as defaults.
 When a task in a role uses `template`, the `src` path is relative to the role's `templates/` directory:
 
 ```yaml
-# In roles/fleet_hardening/tasks/main.yml:
+# In workspace/roles/fleet_hardening/tasks/main.yml:
 - name: Deploy SSH config
   ansible.builtin.template:
     src: sshd_config.j2     # ← looks in roles/fleet_hardening/templates/
@@ -59,39 +59,39 @@ You do NOT need `templates/sshd_config.j2` — just `sshd_config.j2`.
 
 ```bash
 # Method 1: Create interactively (opens editor)
-ansible-vault create vault.yml
+ansible-vault create workspace/vault.yml
 
 # Method 2: Create plaintext, then encrypt
-echo 'vault_my_var: my_value' > vault.yml
-ansible-vault encrypt vault.yml
+echo 'vault_my_var: my_value' > workspace/vault.yml
+ansible-vault encrypt workspace/vault.yml
 ```
 
 **Editing an encrypted file:**
 
 ```bash
-ansible-vault edit vault.yml
+ansible-vault edit workspace/vault.yml
 ```
 
 **Viewing encrypted contents:**
 
 ```bash
-ansible-vault view vault.yml
+ansible-vault view workspace/vault.yml
 ```
 
 **The vault password file:**
 
-`ansible.cfg` has a commented-out `vault_password_file = .vault-pass` line. Create the password file first, then uncomment the line:
+The root `ansible.cfg` has a commented-out `vault_password_file = workspace/.vault-pass` line. Create the password file first, then uncomment the line:
 
 ```bash
-echo 'your-password-here' > .vault-pass
-chmod 600 .vault-pass
+echo 'your-password-here' > workspace/.vault-pass
+chmod 600 workspace/.vault-pass
 ```
 
 This file is in `.gitignore` — it never goes to version control.
 
 **Referencing vault variables:**
 
-In `site.yml`:
+In `workspace/site.yml`:
 ```yaml
 - name: My Play
   hosts: all
@@ -105,7 +105,7 @@ The vault variable `vault_db_password` is now available to the role. Consume it 
 credentials template the role deploys — never in a plaintext file:
 
 ```jinja2
-# roles/fleet_hardening/templates/fleet_db_creds.j2
+# workspace/roles/fleet_hardening/templates/fleet_db_creds.j2
 db_password: {{ vault_db_password }}
 ```
 
@@ -126,8 +126,8 @@ Your `.vault-pass` file content doesn't match the password used to encrypt `vaul
 
 Check that:
 1. The role is at `workspace/roles/fleet_hardening/` (not `workspace/fleet_hardening/`)
-2. `ansible.cfg` has `roles_path = roles`
-3. You're running from the `workspace/` directory
+2. The root `ansible.cfg` has `roles_path = workspace/roles`
+3. You're running commands from the project root (not from inside `workspace/`)
 
 **"No vars_files found" or vault error:**
 
@@ -141,7 +141,7 @@ Ensure `vault.yml` is in the `workspace/` directory (same level as `site.yml`).
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-**roles/fleet_hardening/defaults/main.yml:**
+**workspace/roles/fleet_hardening/defaults/main.yml:**
 ```yaml
 ---
 ssh_permit_root_login: "no"
@@ -157,7 +157,7 @@ These are all public configuration — no vault indirection needed. The one real
 secret, `vault_db_password`, comes from `vault.yml` (loaded via `site.yml`'s
 `vars_files`) and is consumed by the credentials task below.
 
-**roles/fleet_hardening/tasks/main.yml:**
+**workspace/roles/fleet_hardening/tasks/main.yml:**
 ```yaml
 ---
 - name: Deploy SSH configuration
@@ -226,7 +226,7 @@ secret, `vault_db_password`, comes from `vault.yml` (loaded via `site.yml`'s
     mode: '0600'
 ```
 
-**roles/fleet_hardening/handlers/main.yml:**
+**workspace/roles/fleet_hardening/handlers/main.yml:**
 ```yaml
 ---
 - name: Restart SSH
@@ -235,7 +235,7 @@ secret, `vault_db_password`, comes from `vault.yml` (loaded via `site.yml`'s
     state: restarted
 ```
 
-**roles/fleet_hardening/templates/sshd_config.j2:**
+**workspace/roles/fleet_hardening/templates/sshd_config.j2:**
 ```jinja2
 # {{ ansible_managed }}
 PermitRootLogin {{ ssh_permit_root_login }}
@@ -252,7 +252,7 @@ AcceptEnv LANG LC_*
 Subsystem sftp /usr/libexec/openssh/sftp-server
 ```
 
-**roles/fleet_hardening/templates/motd.j2:**
+**workspace/roles/fleet_hardening/templates/motd.j2:**
 ```jinja2
 
 ===============================================
@@ -265,7 +265,7 @@ Subsystem sftp /usr/libexec/openssh/sftp-server
 ===============================================
 ```
 
-**roles/fleet_hardening/templates/fleet_db_creds.j2:**
+**workspace/roles/fleet_hardening/templates/fleet_db_creds.j2:**
 ```jinja2
 # ROTATED FLEET DATABASE CREDENTIAL — vault-sourced, root-only (0600).
 # Supersedes the Warlord's world-readable plaintext leak.
